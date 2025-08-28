@@ -57,7 +57,10 @@ class Ingredients(models.Model):
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, relate_name='reviews')
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, relate_name='reviews')
-    ratings = models.Integer(null=False)
+    ratings = models.Integer(
+        validators=[MinValueValidator(1), MaxValueValidator(5)],  # Range 1–5
+        null=False, blank=False
+    )
     comment = models.TextField(blank=True, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
