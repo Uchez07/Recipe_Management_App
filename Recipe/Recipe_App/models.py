@@ -46,8 +46,12 @@ class User(models.Model):
     def __str__(self):
         return self.username
 
+from django.db import models
+from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 class Ingredients(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, relate_name ='ingeredients')
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='ingredients')
     name = models.CharField(max_length=500, null=False)
     quantity = models.CharField(max_length=200, null=False)
 
@@ -55,10 +59,10 @@ class Ingredients(models.Model):
         return f"{self.name}, ({self.quantity})"
 
 class Review(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, relate_name='reviews')
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, relate_name='reviews')
-    ratings = models.Integer(
-        validators=[MinValueValidator(1), MaxValueValidator(5)],  # Range 1–5
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='reviews')
+    ratings = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
         null=False, blank=False
     )
     comment = models.TextField(blank=True, null=False)
@@ -69,7 +73,7 @@ class Review(models.Model):
 
     class Meta:
         constraints = [
-            models.CheckConstraint(check=models.Q(rating__gte=1) & models.Q(rating__lte=5),
-                                   name="rating_between_1_and_5")
+            models.CheckConstraint(check=models.Q(ratings__gte=1) & models.Q(ratings__lte=5),
+                                   name="ratings_between_1_and_5")
         ]
 

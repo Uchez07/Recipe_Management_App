@@ -12,3 +12,11 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return True
         # Only the recipe owner can modify it
         return obj.user == request.user
+
+class IsRecipeOwner(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.recipe.user == request.user
+
+class IsReviewOwner(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.user == request.user
