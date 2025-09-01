@@ -1,0 +1,39 @@
+{% load static %}
+{% extends 'base.html' %}
+
+{% block title %}Home - Recipe App{% endblock %}
+
+{% block content %}
+<div class="home-header text-center my-5">
+    <h1 class="main-title">Welcome to the Recipe App!</h1>
+    <p class="subtitle">Explore, share, and create amazing recipes from around the world.</p>
+    <a href="{% url 'recipe-list' %}" class="btn btn-lg btn-success mt-3">View Recipes</a>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card feature-card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Easy to Use</h5>
+                <p class="card-text">Find and share recipes with a simple and beautiful interface.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card feature-card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Create & Share</h5>
+                <p class="card-text">Add your own recipes and let others enjoy your creativity.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card feature-card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Rate & Review</h5>
+                <p class="card-text">Read reviews and share your thoughts on delicious recipes.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
