@@ -5,11 +5,13 @@ from . import views
 from .views import (
     RecipeCreateView, RecipeListView, RecipeDetailView, RecipeUpdateView, RecipeDeleteView, 
     IngredientCreateView, IngredientListView, IngredientUpdateView, IngredientDeleteView,
-    ReviewCreateView, ReviewListView, ReviewUpdateView, ReviewDeleteView,)
+    ReviewCreateView, ReviewListView, ReviewUpdateView, ReviewDeleteView,
+    UserLoginView, UserLogoutView,
+    )
 
 urlpatterns = [
     path('', views.base, name='base'),
-    path('home', veiws.home, name='home'),
+    path('home', views.home, name='home'),
 
     path('login/', UserLoginView.as_view(), name='login'),
     path('logout/', UserLogoutView.as_view(), name='logout'),
