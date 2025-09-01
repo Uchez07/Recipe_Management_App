@@ -3,6 +3,22 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .models import Recipe, Ingredients, Review
 from .serializers import RecipeSerializer, IngredientSerializer, ReviewSerializer
 from .permissions import IsOwnerOrReadOnly, IsRecipeOwner, IsReviewOwner
+from django.contrib.auth.views import LoginView, LogoutView
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+# Login View
+class UserLoginView(LoginView):
+    template_name = 'auth/login.html'  # Create this template
+    redirect_authenticated_user = True
+
+    def get_success_url(self):
+        return reverse_lazy('recipe-list')  # Redirect after successful login
+
+
+# Logout View
+class UserLogoutView(LogoutView):
+    next_page = reverse_lazy('login')  # Redirect after logout
 
 # Create Recipe
 class RecipeCreateView(generics.CreateAPIView):
