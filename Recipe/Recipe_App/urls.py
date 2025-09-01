@@ -1,11 +1,11 @@
 # recipe_app/urls.py
 from django.urls import path
 from django.contrib.auth.views import LogoutView
+from . import views
 from .views import (
     RecipeCreateView, RecipeListView, RecipeDetailView, RecipeUpdateView, RecipeDeleteView, 
     IngredientCreateView, IngredientListView, IngredientUpdateView, IngredientDeleteView,
-    ReviewCreateView, ReviewListView, ReviewUpdateView, ReviewDeleteView,
-    UserLoginView, UserLlogoutView)
+    ReviewCreateView, ReviewListView, ReviewUpdateView, ReviewDeleteView,)
 
 urlpatterns = [
     path('', views.base, name='base'),
