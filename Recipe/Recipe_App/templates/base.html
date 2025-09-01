@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Recipe App{% endblock %}</title>
+    <!-- Load static files for CSS/JS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'recipe-list' %}">Recipes</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'recipe-create' %}">Create Recipe</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- Main Content Block -->
+    <div class="container">
+        {% block content %}
+        <!-- Child templates insert content here -->
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Recipe App. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
