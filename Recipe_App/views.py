@@ -38,11 +38,12 @@ class RecipeCreateView(generics.CreateAPIView):
         serializer.save(user=self.request.user)
 
 # List Recipes
-class RecipeListView(generics.ListAPIView):
-    queryset = Recipe.objects.all()
-    serializer_class = RecipeSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
 
+class RecipeListView(ListView):
+    model = Recipe
+    template_name = "recipes_list.html"  # our custom HTML template
+    context_object_name = "recipes"    
+      
 # Retrieve Single Recipe
 class RecipeDetailView(generics.RetrieveAPIView):
     queryset = Recipe.objects.all()
