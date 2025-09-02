@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+<h2>Ingredients</h2>
+<ul>
+  {% for ingredient in ingredients %}
+    <li>
+      {{ ingredient.name }} - {{ ingredient.quantity }} {{ ingredient.unit }}
+      <a href="{% url 'ingredient_edit' ingredient.id %}">Edit</a>
+      <a href="{% url 'ingredient_delete' ingredient.id %}">Delete</a>
+    </li>
+  {% endfor %}
+</ul>
+<a href="{% url 'ingredient_add' recipe_id=recipe_id %}">Add Ingredient</a>

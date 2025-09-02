@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ recipe.title }} - Recipe App{% endblock %}
+
+{% block content %}
+<h1>{{ recipe.title }}</h1>
+<p><strong>Description:</strong> {{ recipe.description }}</p>
+<p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
+<p><strong>Instructions:</strong> {{ recipe.instructions }}</p>
+
+{% if user == recipe.user %}
+    <a href="{% url 'recipe_update' recipe.pk %}" class="btn btn-warning btn-sm">Edit</a>
+    <a href="{% url 'recipe_delete' recipe.pk %}" class="btn btn-danger btn-sm">Delete</a>
+{% endif %}
+
+<a href="{% url 'recipe_list' %}" class="btn btn-secondary btn-sm mt-2">Back to Recipes</a>
+{% endblock %}

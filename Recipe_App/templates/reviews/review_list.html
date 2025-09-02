@@ -1,0 +1,24 @@
+
+{% extends "base.html" %}
+{% block title %}Reviews{% endblock %}
+
+{% block content %}
+<div class="card p-4 shadow">
+    <h2 class="mb-3">Reviews</h2>
+    <a href="{% url 'review-create' recipe_id=recipe_id %}" class="btn btn-primary mb-3">Add Review</a>
+    <ul class="list-group">
+        {% for review in reviews %}
+            <li class="list-group-item">
+                <strong>{{ review.user.username }}</strong>: {{ review.content }}
+                <span class="badge bg-info ms-2">Rating: {{ review.rating }}</span>
+                {% if review.user == user %}
+                    <a href="{% url 'review-update' review.id %}" class="btn btn-sm btn-warning ms-2">Edit</a>
+                    <a href="{% url 'review-delete' review.id %}" class="btn btn-sm btn-danger ms-2">Delete</a>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li class="list-group-item">No reviews yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
