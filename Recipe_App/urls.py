@@ -13,10 +13,11 @@ urlpatterns = [
     path('', views.base, name='base'),
     path('home', views.home, name='home'),
 
+    path('register/', views.register, name='register'), 
     path('login/', UserLoginView.as_view(), name='login'),
     path('logout/', UserLogoutView.as_view(), name='logout'),
 
-    path('', RecipeListView.as_view(), name='recipe-list'),
+    path('recipes', RecipeListView.as_view(), name='recipe-list'),
     path('recipes/create/', RecipeCreateView.as_view(), name='recipe-create'),
     path('recipes/<int:pk>/', RecipeDetailView.as_view(), name='recipe-detail'),
     path('recipes/<int:pk>/update/', RecipeUpdateView.as_view(), name='recipe-update'),

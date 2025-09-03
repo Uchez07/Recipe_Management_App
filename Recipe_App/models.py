@@ -46,14 +46,12 @@ class User(models.Model):
     def __str__(self):
         return self.username
 
-from django.db import models
-from django.contrib.auth.models import User
-from django.core.validators import MinValueValidator, MaxValueValidator
+
 
 class Ingredients(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='ingredients')
-    name = models.CharField(max_length=500, null=False)
-    quantity = models.CharField(max_length=200, null=False)
+    required_ingredients = models.TextField(max_length=5000, null=False)
+    
 
     def __str__(self):
         return f"{self.name}, ({self.quantity})"

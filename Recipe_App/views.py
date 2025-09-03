@@ -12,17 +12,29 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView
 from .forms import RecipeForm, IngredientForm, ReviewForm
 from . import views
-
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 
 def base(request):
     return render(request, 'home.html')
 
 def home(request):
     return render(request, 'home.html')
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Log in the user immediately
+            return redirect('home')  # Redirect to home page
+    else:
+        form = UserCreationForm()
+    return render(request, 'auth/register.html', {'form': form})
 
 # Login View
 class UserLoginView(LoginView):
-    template_name = 'auth/login.html'  # Create this template
+    template_name = 'auth/login.html'  
     redirect_authenticated_user = True
 
     def get_success_url(self):
@@ -38,7 +50,7 @@ class RecipeCreateView(LoginRequiredMixin, CreateView):
     model = Recipe
     form_class = RecipeForm
     template_name = "recipes/recipe_form.html"
-    success_url = reverse_lazy('recipe_list')
+    success_url = reverse_lazy('recipe-list')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -62,7 +74,7 @@ class RecipeUpdateView(LoginRequiredMixin, UpdateView):
     model = Recipe
     form_class = RecipeForm
     template_name = "recipes/recipe_form.html"
-    success_url = reverse_lazy('recipe_list')
+    success_url = reverse_lazy('recipe-list')
 
     def form_valid(self, form):
         if form.instance.user != self.request.user:
@@ -74,7 +86,7 @@ class RecipeUpdateView(LoginRequiredMixin, UpdateView):
 class RecipeDeleteView(LoginRequiredMixin, DeleteView):
     model = Recipe
     template_name = "recipes/recipe_confirm_delete.html"
-    success_url = reverse_lazy('recipe_list')
+    success_url = reverse_lazy('recipe-list')
 
 # Create Ingredient
 class IngredientCreateView(CreateView):
@@ -88,7 +100,7 @@ class IngredientCreateView(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('ingredient_list', kwargs={'recipe_id': self.kwargs['recipe_id']})
+        return reverse_lazy('ingredient-list', kwargs={'recipe_id': self.kwargs['recipe_id']})
 
 
 # List Ingredients for a Recipe
@@ -101,6 +113,11 @@ class IngredientListView(ListView):
         recipe = get_object_or_404(Recipe, id=self.kwargs['recipe_id'])
         return Ingredients.objects.filter(recipe=recipe)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['recipe_id'] = self.kwargs['recipe_id']
+        return context
+
 
 # Update Ingredient
 class IngredientUpdateView(UpdateView):
@@ -110,7 +127,7 @@ class IngredientUpdateView(UpdateView):
 
     def get_success_url(self):
         recipe_id = self.object.recipe.id
-        return reverse_lazy('ingredient_list', kwargs={'recipe_id': recipe_id})
+        return reverse_lazy('ingredient-list', kwargs={'recipe_id': recipe_id})
 
 
 # Delete Ingredient
@@ -120,7 +137,7 @@ class IngredientDeleteView(DeleteView):
 
     def get_success_url(self):
         recipe_id = self.object.recipe.id
-        return reverse_lazy('ingredient_list', kwargs={'recipe_id': recipe_id})
+        return reverse_lazy('ingredient-list', kwargs={'recipe_id': recipe_id})
 
 # Create Review
 class ReviewCreateView(CreateView):
@@ -135,7 +152,7 @@ class ReviewCreateView(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('review_list', kwargs={'recipe_id': self.kwargs['recipe_id']})
+        return reverse_lazy('review-list', kwargs={'recipe_id': self.kwargs['recipe_id']})
 
 
 # List Reviews for a Recipe
@@ -161,7 +178,7 @@ class ReviewUpdateView(UpdateView):
     template_name = "reviews/review_form.html"
 
     def get_success_url(self):
-        return reverse_lazy('review_list', kwargs={'recipe_id': self.object.recipe.id})
+        return reverse_lazy('review-list', kwargs={'recipe_id': self.object.recipe.id})
 
 
 # Delete Review
@@ -170,4 +187,4 @@ class ReviewDeleteView(DeleteView):
     template_name = "reviews/review_confirm_delete.html"
 
     def get_success_url(self):
-        return reverse_lazy('review_list', kwargs={'recipe_id': self.object.recipe.id})
+        return reverse_lazy('review-list', kwargs={'recipe_id': self.object.recipe.id})
