@@ -50,7 +50,7 @@ class User(models.Model):
 
 class Ingredients(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='ingredients')
-    required_ingredients = models.TextField(max_length=5000, null=False)
+    required_ingredients = models.TextField(max_length=5000, null=True, blank=True)
     
 
     def __str__(self):
