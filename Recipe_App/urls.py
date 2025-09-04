@@ -2,6 +2,7 @@
 from django.urls import path
 from django.contrib.auth.views import LogoutView
 from . import views
+from . import api_views
 from .views import (
     RecipeCreateView, RecipeListView, RecipeDetailView, RecipeUpdateView, RecipeDeleteView, 
     IngredientCreateView, IngredientListView, IngredientUpdateView, IngredientDeleteView,
@@ -34,4 +35,17 @@ urlpatterns = [
     path('recipes/<int:recipe_id>/reviews/create/', ReviewCreateView.as_view(), name='review-create'),
     path('reviews/<int:pk>/update/', ReviewUpdateView.as_view(), name='review-update'),
     path('reviews/<int:pk>/delete/', ReviewDeleteView.as_view(), name='review-delete'),
+
+    # Recipe APIs
+    path("api/recipes/", api_views.RecipeListCreateAPIView.as_view(), name="api-recipe-list"),
+    path("api/recipes/<int:pk>/", api_views.RecipeRetrieveUpdateDestroyAPIView.as_view(), name="api-recipe-detail"),
+
+    # Ingredient APIs (nested under recipe)
+    path("api/recipes/<int:recipe_id>/ingredients/", api_views.IngredientListCreateAPIView.as_view(), name="api-ingredient-list"),
+    path("api/ingredients/<int:pk>/", api_views.IngredientRetrieveUpdateDestroyAPIView.as_view(), name="api-ingredient-detail"),
+
+    # Review APIs (nested under recipe)
+    path("api/recipes/<int:recipe_id>/reviews/", api_views.ReviewListCreateAPIView.as_view(), name="api-review-list"),
+    path("api/reviews/<int:pk>/", api_views.ReviewRetrieveUpdateDestroyAPIView.as_view(), name="api-review-detail"),
+
 ]

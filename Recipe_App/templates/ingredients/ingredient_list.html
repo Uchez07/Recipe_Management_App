@@ -7,30 +7,6 @@
         <h3>Ingredients for {{ ingredients.0.recipe.title|default:"this recipe" }}</h3>
         <a href="{% url 'ingredient-create' recipe_id=recipe_id %}" class="btn btn-primary">Add Ingredient</a>
     </div>
-    <table class="table table-bordered table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>Name</th>
-                <th>Quantity</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for ingredient in ingredients %}
-            <tr>
-                <td>{{ ingredient.name }}</td>
-                <td>{{ ingredient.quantity }}</td>
-                <td>
-                    <a href="{% url 'ingredient-update' ingredient.id %}" class="btn btn-sm btn-warning">Edit</a>
-                    <a href="{% url 'ingredient-delete' ingredient.id %}" class="btn btn-sm btn-danger">Delete</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="3" class="text-center">No ingredients added yet.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    
 </div>
 {% endblock %}
