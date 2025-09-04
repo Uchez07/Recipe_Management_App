@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-rxh(9&^s74(v69ftqq%b865399p)10@ihfg5cmk!1e(py=ss83'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['SereneKitchen.pythonanywhere.com']
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
